@@ -1,0 +1,20 @@
+name: C/C++ CI
+
+on:
+  push:
+    tags: '*'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: make planck
+      run: make plack/rev6:henning
+    - name: Upload binaries to release
+      uses: svenstaro/upload-release-action@v1-release
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: planck_rev6_henning.bin
+        asset_name: planck_rev6_henning_${{ github.ref }}
+        tag: ${{ github.ref }}
