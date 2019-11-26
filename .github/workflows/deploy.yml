@@ -19,10 +19,14 @@ jobs:
     - name: make planck
       run: make planck/rev6:henning
 
+    - name: Get the version
+      id: get_version
+      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+
     - name: Upload binaries to release
       uses: svenstaro/upload-release-action@v1-release
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: planck_rev6_henning.bin
-        asset_name: planck_rev6_henning_${{ github.ref }}
+        asset_name: planck_rev6_henning_${{ steps.get_version.outputs.VERSION }}.bin
         tag: ${{ github.ref }}
