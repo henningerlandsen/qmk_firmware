@@ -9,10 +9,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
+
     - name: init submodules
       run: make git-submodule
+
+    - name: install dependencies
+      run: sudo util/qmk_install.sh
+
     - name: make planck
       run: make planck/rev6:henning
+
     - name: Upload binaries to release
       uses: svenstaro/upload-release-action@v1-release
       with:
