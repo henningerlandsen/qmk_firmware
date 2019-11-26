@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
+    - name: init submodules
+      run: make git-submodule
     - name: make planck
       run: make planck/rev6:henning
     - name: Upload binaries to release
