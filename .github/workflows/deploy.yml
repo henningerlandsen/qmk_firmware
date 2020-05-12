@@ -7,6 +7,13 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - board: planck/rev6
+            name: planck_rev6
+          - board: jj40
+            name: jj40
     steps:
     - uses: actions/checkout@v1
 
@@ -16,8 +23,8 @@ jobs:
     - name: install dependencies
       run: sudo util/qmk_install.sh
 
-    - name: make planck
-      run: make planck/rev6:henning
+    - name: make ${{ matrix.name }}
+      run: make ${{ matrix.board }}:henning
 
     - name: Get the version
       id: get_version
@@ -27,6 +34,6 @@ jobs:
       uses: svenstaro/upload-release-action@v1-release
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: planck_rev6_henning.bin
-        asset_name: planck_rev6_henning_${{ steps.get_version.outputs.VERSION }}.bin
+        file: ${{ matrix.name }}_henning.bin
+        asset_name: ${{ matrix.name }}_henning_${{ steps.get_version.outputs.VERSION }}.bin
         tag: ${{ github.ref }}
