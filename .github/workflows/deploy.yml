@@ -2,7 +2,8 @@ name: Deploy firmware
 
 on:
   push:
-    tags: '*'
+    branches:
+      - dev
 
 jobs:
   deploy:
